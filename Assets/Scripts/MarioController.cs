@@ -9,6 +9,7 @@ public class MarioController : MonoBehaviour {
     public static Vector3 dir;
     public GameObject plataforma1;
     public static bool ocupat = false;
+    private Animator animate;
     // Use this for initialization
     double distance(Vector3 dist1, Vector3 dist2)
     {
@@ -19,6 +20,7 @@ public class MarioController : MonoBehaviour {
         BoxCollider bx = plataforma1.GetComponent<BoxCollider>();
         dir = bx.center + plataforma1.transform.position;
         state = "falling";
+        animate = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
@@ -36,16 +38,23 @@ public class MarioController : MonoBehaviour {
         //dir = Quaternion.cameraRelativeRotation * dir;
         //transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, transform.position.y, dir.z));
         if (aux < 0.1 && Math.Abs(jump) <= 1 && ocupat) ocupat = false;
-        if (Math.Abs(jump) < 1.1 && aux < 0.001) state = "idle";
+        if (Math.Abs(jump) < 1.1 && aux < 0.01)
+        {
+            animate.SetBool("Walking", false);
+            state = "idle";
+        }
         else if (Math.Abs(jump) > 16 || aux > 12)
         {
             ocupat = false;
             state = "idle";
+            animate.SetBool("Walking", false);
             Debug.Log("Estoy idle");
         }
-        else if ((state == "Walking" || state == "falling" || state == "idle" ) && Math.Abs(jump) < 1.1 && aux < 12)
+        else if ((state == "Walking" || state == "falling" || state == "idle") && Math.Abs(jump) < 1.1 && aux < 12)
         {
             state = "Walking";
+            if (aux > 0.5) animate.SetBool("Walking", true);
+            else animate.SetBool("Walking", false);
             transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
             Debug.Log("Estoy walking" + jump);
             /*Vector3 direction = new Vector3(dir.x, transform.position.y, dir.z) - transform.position;
@@ -69,6 +78,8 @@ public class MarioController : MonoBehaviour {
         {
             state = "falling";
         }
+
+        
         Debug.Log("La altura es " + jump +" y la distancia es " + aux + "estoy en el estado " + state + "estoy ocupado" + ocupat);
         /*if ((state == "Walking" || state == "idle") && aux < 0.3 || aux > 12)
         {

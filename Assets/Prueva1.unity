@@ -550,7 +550,7 @@ MonoBehaviour:
   target: {fileID: 262472267}
   distance: 40
   height: 40
-  heightDamping: 2
+  heightDamping: 0
   rotationDamping: 0
 --- !u!1001 &840474458
 Prefab:
