@@ -171,6 +171,10 @@ MonoBehaviour:
 GameObject:
   m_PrefabParentObject: {fileID: 100002, guid: 8d022e4b7229e1841aebe5534058c1ea, type: 3}
   m_PrefabInternal: {fileID: 1142757691}
+--- !u!4 &262472267 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: 8d022e4b7229e1841aebe5534058c1ea, type: 3}
+  m_PrefabInternal: {fileID: 1142757691}
 --- !u!54 &262472268
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -461,6 +465,7 @@ GameObject:
   - component: {fileID: 833585332}
   - component: {fileID: 833585331}
   - component: {fileID: 833585330}
+  - component: {fileID: 833585334}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -531,6 +536,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 22.126001, y: 280.01898, z: 1.697}
+--- !u!114 &833585334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 833585329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3d58b7042574e146b65a3302e284e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 262472267}
+  distance: 40
+  height: 40
+  heightDamping: 2
+  rotationDamping: 0
 --- !u!1001 &840474458
 Prefab:
   m_ObjectHideFlags: 0
@@ -939,6 +960,10 @@ Prefab:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 8d022e4b7229e1841aebe5534058c1ea, type: 3}
+      propertyPath: m_Name
+      value: MarioBros
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 8d022e4b7229e1841aebe5534058c1ea, type: 3}
       propertyPath: m_Name
       value: MarioBros
       objectReference: {fileID: 0}
