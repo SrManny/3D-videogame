@@ -16,6 +16,10 @@ public class Desplazar : MonoBehaviour {
     private void OnMouseDown()
     {
         BoxCollider bx = GetComponent<BoxCollider>();
-        NewBehaviourScript.dir = transform.position + bx.center;
+        if (!MarioController.ocupat)
+        {
+            MarioController.dir = transform.position + bx.center;
+            MarioController.ocupat = true;
+        }
     }
 }
