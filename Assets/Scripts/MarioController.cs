@@ -40,41 +40,43 @@ public class MarioController : MonoBehaviour {
         if (aux < 0.1 && Math.Abs(jump) <= 1 && ocupat) ocupat = false;
         if (Math.Abs(jump) < 1.1 && aux < 0.01)
         {
-            animate.SetBool("Walking", false);
+            animate.SetInteger("State", 0);
             state = "idle";
         }
-        else if (Math.Abs(jump) > 16 || aux > 12)
+        else if (Math.Abs(jump) > 17 || aux > 12)
         {
             ocupat = false;
             state = "idle";
-            animate.SetBool("Walking", false);
+            animate.SetInteger("State", 0);
             Debug.Log("Estoy idle");
         }
         else if ((state == "Walking" || state == "falling" || state == "idle") && Math.Abs(jump) < 1.1 && aux < 12)
         {
             state = "Walking";
-            if (aux > 0.5) animate.SetBool("Walking", true);
-            else animate.SetBool("Walking", false);
+            if (aux > 0.5) animate.SetInteger("State", 1);
+            else animate.SetInteger("State", 0);
+            //transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
             transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
+            if (aux < 0.3) transform.position = new Vector3(dir.x, transform.position.y, dir.z);
             Debug.Log("Estoy walking" + jump);
-            /*Vector3 direction = new Vector3(dir.x, transform.position.y, dir.z) - transform.position;
-            Quaternion toRotation = Quaternion.FromToRotation(transform.forward, direction);
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, speed * Time.deltaTime);*/
         }
 
         else if ((state == "idle" || state == "Walking") && aux < 12 && jump > 8 && jump < 12)
         {
             state = "Jumping";
-            GetComponent<Rigidbody>().AddForce(new Vector3((dir.x - transform.position.x) * 2, 84, (dir.z - transform.position.z) * 2), ForceMode.Impulse);
+            animate.SetInteger("State", 2);
+            GetComponent<Rigidbody>().AddForce(new Vector3((dir.x - transform.position.x) * 1, 41, (dir.z - transform.position.z) * 1), ForceMode.Impulse);
+            //GetComponent<Rigidbody>().AddForce(new Vector3(3, 60, 3), ForceMode.Impulse);
             Debug.Log("Estoy quiero saltar con una fuerza vertical de " + (dir.y - transform.position.y) * 10);
         }
         else if ((state == "idle" || state == "Walking") && aux < 12 && jump < -8 && jump > -12)
         {
             state = "Jumping";
-            GetComponent<Rigidbody>().AddForce(new Vector3((dir.x - transform.position.x) * 2, Math.Abs(dir.y - transform.position.y) * 5, (dir.z - transform.position.z) * 2), ForceMode.Impulse);
+            animate.SetInteger("State", 2);
+            GetComponent<Rigidbody>().AddForce(new Vector3((dir.x - transform.position.x) * 1, 21, (dir.z - transform.position.z) * 1), ForceMode.Impulse);
             Debug.Log("Estoy quiero saltar");
         }
-        else if (state == "Jumping" && jump < -4)
+        else if (state == "Jumping" && jump < -3.5)
         {
             state = "falling";
         }
