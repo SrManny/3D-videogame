@@ -6,7 +6,8 @@ public class MarioController : MonoBehaviour {
 
     public float speed = 5.0f;
     public string state = "falling";
-    public static Vector3 dir;
+    public static int poder = 1;
+    public static Vector3 dir, anterior, dondeMirar, posMario;
     public GameObject plataforma1;
     public static bool ocupat = false;
     private Animator animate;
@@ -24,7 +25,9 @@ public class MarioController : MonoBehaviour {
         dir = bx.center + plataforma1.transform.position;
         state = "falling";
         animate = GetComponent<Animator>();
-        
+        posMario = transform.position;
+
+
     }
 
 
@@ -34,26 +37,32 @@ public class MarioController : MonoBehaviour {
         /*if (0 == distance(dir, transform.position))
         GetComponent<Rigidbody>().
            GetComponent<Rigidbody>().isKinematic = false;*/
-       // Quaternion cameraRelativeRotation = Quaternion.FromToRotation(transform.forward, dir);
+        // Quaternion cameraRelativeRotation = Quaternion.FromToRotation(transform.forward, dir);
+        posMario = transform.position;
         double aux = distance(dir, transform.position);
         double jump = dir.y - transform.position.y;
         // Ray lookRay = new Ray(transform.position, lookToward);
         // transform.LookAt(lookRay.GetPoint(1));
-        transform.LookAt(new Vector3(dir.x, transform.position.y, dir.z));
+        transform.LookAt(new Vector3(dondeMirar.x, transform.position.y, dondeMirar.z));
         //dir = Quaternion.cameraRelativeRotation * dir;
         //transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, transform.position.y, dir.z));
-        if (aux < 0.1 && Math.Abs(jump) <= 1 && ocupat) ocupat = false;
+        if (aux < 0.1 && Math.Abs(jump) <= 1 && ocupat)
+        {
+            ocupat = false;
+        }
         if (Math.Abs(jump) < 1.1 && aux < 0.01)
         {
             animate.SetInteger("State", 0);
             state = "idle";
+            anterior = transform.position;
         }
+        
         else if (Math.Abs(jump) > 17 || aux > 12)
         {
             ocupat = false;
             state = "idle";
             animate.SetInteger("State", 0);
-           // Debug.Log("Estoy idle");
+            //Debug.Log("Estoy idle");
         }
         else if ((state == "Walking" || state == "falling" || state == "idle") && Math.Abs(jump) < 1.1 && aux < 12)
         {
@@ -63,7 +72,7 @@ public class MarioController : MonoBehaviour {
             //transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
             transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
             if (aux < 0.3) transform.position = new Vector3(dir.x, transform.position.y, dir.z);
-            //Debug.Log("Estoy walking" + jump);
+           // Debug.Log("Estoy walking" + jump);
         }
 
         else if ((state == "idle" || state == "Walking") && aux < 12 && jump > 8 && jump < 12)
@@ -81,15 +90,15 @@ public class MarioController : MonoBehaviour {
             animate.SetInteger("State", 2);
             GetComponent<Rigidbody>().AddForce(new Vector3((dir.x - transform.position.x) * 1, 21, (dir.z - transform.position.z) * 1), ForceMode.Impulse);
             AudioSource.PlayClipAtPoint(jumpSound, transform.position);
-            //Debug.Log("Estoy quiero saltar");
+           // Debug.Log("Estoy quiero saltar");
         }
-        else if (state == "Jumping" && jump < -3.5)
+        else if (state == "Jumping" && jump < -3.4)
         {
             state = "falling";
         }
 
         
-        //Debug.Log("La altura es " + jump +" y la distancia es " + aux + "estoy en el estado " + state + "estoy ocupado" + ocupat);
+       // Debug.Log("La altura es " + jump +" y la distancia es " + aux + "estoy en el estado " + state + "estoy ocupado" + ocupat);
         /*if ((state == "Walking" || state == "idle") && aux < 0.3 || aux > 12)
         {
             state = "idle";

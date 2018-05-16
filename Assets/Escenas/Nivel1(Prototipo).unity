@@ -196,6 +196,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a1a95caa204fc214cb9d11908ad19172, type: 3}
+      propertyPath: m_TagString
+      value: Goomba
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1a95caa204fc214cb9d11908ad19172, type: 3}
   m_IsPrefabParent: 0
@@ -257,6 +261,17 @@ MonoBehaviour:
 GameObject:
   m_PrefabParentObject: {fileID: 100002, guid: 8d022e4b7229e1841aebe5534058c1ea, type: 3}
   m_PrefabInternal: {fileID: 1142757691}
+--- !u!114 &262472266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 262472265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579b06624d412934780972a9088934b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &262472267 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 8d022e4b7229e1841aebe5534058c1ea, type: 3}
@@ -1041,6 +1056,10 @@ Prefab:
       propertyPath: m_Name
       value: MarioBros
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 8d022e4b7229e1841aebe5534058c1ea, type: 3}
+      propertyPath: m_TagString
+      value: MarioBros
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8d022e4b7229e1841aebe5534058c1ea, type: 3}
   m_IsPrefabParent: 0
@@ -1576,9 +1595,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceb2a2bb12086e74a9049f6b528e7580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anterior: {x: 0, y: 0, z: 0}
   GirarYAvanzar: 0
   NoHaLlegado: 0
   objetivo: {x: 0, y: 0, z: 0}
+  timeToTransform: 0.5
+  GoombaDead: {fileID: 8300000, guid: 39d2e791b8e41be4188091f4a7a3b766, type: 3}
+  MarioDestransformacion: {fileID: 8300000, guid: 17fa652adf51d02488f3563dd13477e4,
+    type: 3}
+  ohhSound: {fileID: 8300000, guid: cb4572578e9a33b4b84b13587aef5980, type: 3}
 --- !u!65 &1845984656
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1589,8 +1614,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 16, y: 16, z: 16}
-  m_Center: {x: 0, y: 8, z: 0}
+  m_Size: {x: 16, y: 14.28978, z: 11.318085}
+  m_Center: {x: 0, y: 7.8, z: 0}
 --- !u!54 &1845984657
 Rigidbody:
   m_ObjectHideFlags: 0
