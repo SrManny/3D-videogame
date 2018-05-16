@@ -5,7 +5,7 @@ using UnityEngine;
 public class Desplazar : MonoBehaviour {
 
     // Use this for initialization
-    public bool click;
+    public bool click = false;
     void Start () {
     }
 	
@@ -20,6 +20,12 @@ public class Desplazar : MonoBehaviour {
         {
             MarioController.dir = transform.position + bx.center;
             MarioController.ocupat = true;
+            click = true;
+        }
+        if (click && MarioController.ocupat)
+        {
+            GoombaController.movimiento = true;
+            click = false;
         }
     }
 }

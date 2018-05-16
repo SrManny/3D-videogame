@@ -10,7 +10,10 @@ public class MarioController : MonoBehaviour {
     public GameObject plataforma1;
     public static bool ocupat = false;
     private Animator animate;
+    public AudioClip jumpSound;
+    private AudioSource source;
     // Use this for initialization
+
     double distance(Vector3 dist1, Vector3 dist2)
     {
         return Math.Sqrt((dist1.x-dist2.x)*(dist1.x - dist2.x) + (dist1.z- dist2.z)* (dist1.z - dist2.z));
@@ -21,10 +24,12 @@ public class MarioController : MonoBehaviour {
         dir = bx.center + plataforma1.transform.position;
         state = "falling";
         animate = GetComponent<Animator>();
+        
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+
+    // Update is called once per frame
+    void Update () {
         //if ((dir.x != transform.position.x) || (dir.z != transform.position.z)) ;
         /*if (0 == distance(dir, transform.position))
         GetComponent<Rigidbody>().
@@ -48,7 +53,7 @@ public class MarioController : MonoBehaviour {
             ocupat = false;
             state = "idle";
             animate.SetInteger("State", 0);
-            Debug.Log("Estoy idle");
+           // Debug.Log("Estoy idle");
         }
         else if ((state == "Walking" || state == "falling" || state == "idle") && Math.Abs(jump) < 1.1 && aux < 12)
         {
@@ -58,7 +63,7 @@ public class MarioController : MonoBehaviour {
             //transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
             transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
             if (aux < 0.3) transform.position = new Vector3(dir.x, transform.position.y, dir.z);
-            Debug.Log("Estoy walking" + jump);
+            //Debug.Log("Estoy walking" + jump);
         }
 
         else if ((state == "idle" || state == "Walking") && aux < 12 && jump > 8 && jump < 12)
@@ -67,14 +72,16 @@ public class MarioController : MonoBehaviour {
             animate.SetInteger("State", 2);
             GetComponent<Rigidbody>().AddForce(new Vector3((dir.x - transform.position.x) * 1, 41, (dir.z - transform.position.z) * 1), ForceMode.Impulse);
             //GetComponent<Rigidbody>().AddForce(new Vector3(3, 60, 3), ForceMode.Impulse);
-            Debug.Log("Estoy quiero saltar con una fuerza vertical de " + (dir.y - transform.position.y) * 10);
+           // Debug.Log("Estoy quiero saltar con una fuerza vertical de " + (dir.y - transform.position.y) * 10);
+            AudioSource.PlayClipAtPoint(jumpSound, transform.position);
         }
         else if ((state == "idle" || state == "Walking") && aux < 12 && jump < -8 && jump > -12)
         {
             state = "Jumping";
             animate.SetInteger("State", 2);
             GetComponent<Rigidbody>().AddForce(new Vector3((dir.x - transform.position.x) * 1, 21, (dir.z - transform.position.z) * 1), ForceMode.Impulse);
-            Debug.Log("Estoy quiero saltar");
+            AudioSource.PlayClipAtPoint(jumpSound, transform.position);
+            //Debug.Log("Estoy quiero saltar");
         }
         else if (state == "Jumping" && jump < -3.5)
         {
@@ -82,7 +89,7 @@ public class MarioController : MonoBehaviour {
         }
 
         
-        Debug.Log("La altura es " + jump +" y la distancia es " + aux + "estoy en el estado " + state + "estoy ocupado" + ocupat);
+        //Debug.Log("La altura es " + jump +" y la distancia es " + aux + "estoy en el estado " + state + "estoy ocupado" + ocupat);
         /*if ((state == "Walking" || state == "idle") && aux < 0.3 || aux > 12)
         {
             state = "idle";
