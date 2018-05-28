@@ -53,7 +53,7 @@ public class GoombaController : MonoBehaviour {
 	}
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "MarioBros" && collision.contacts[0].point.y<4 && !starts)
+        if (collision.gameObject.tag == "MarioBros" && Math.Abs(collision.gameObject.transform.position.y - transform.position.y)<3.5 && !starts)
         {
             --GirarYAvanzar;
             if (GirarYAvanzar % 2 == 0) transform.Rotate(0, -90, 0);
