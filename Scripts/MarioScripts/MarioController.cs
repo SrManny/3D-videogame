@@ -8,9 +8,10 @@ public class MarioController : MonoBehaviour {
     public static string state = "falling";
     public static int poder = 1;
     public static Vector3 dir, anterior, dondeMirar, posMario;
+    public static String type;
     public GameObject plataforma1;
     public static bool ocupat = false, tranformandose = false;
-    private Animator animate;
+    public Animator animate;
     public AudioClip jumpSound;
     private AudioSource source;
     // Use this for initialization
@@ -42,6 +43,7 @@ public class MarioController : MonoBehaviour {
         
         if (!ColisionConEnemigo.destransformandose && !tranformandose)
         {
+            Debug.Log(state);
             posMario = transform.position;
             double aux = distance(dir, transform.position);
             double jump = dir.y - transform.position.y;
@@ -50,6 +52,7 @@ public class MarioController : MonoBehaviour {
             // Ray lookRay = new Ray(transform.position, lookToward);
             // transform.LookAt(lookRay.GetPoint(1));
             transform.LookAt(new Vector3(dondeMirar.x, transform.position.y, dondeMirar.z));
+          
             //dir = Quaternion.cameraRelativeRotation * dir;
             //transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, transform.position.y, dir.z));
             if (aux < 0.1 && Math.Abs(jump) - 2 <= 1 && ocupat)
@@ -71,14 +74,26 @@ public class MarioController : MonoBehaviour {
             }
             else if ((state == "Walking" || state == "falling" || state == "idle") && Math.Abs(jump) < 1.1+2 && aux < 12)
             {
-                
-                state = "Walking";
-                if (aux > 0.5) animate.SetInteger("State", 1);
-                else animate.SetInteger("State", 0);
-                //transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
-                transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
-                if (aux < 0.3) transform.position = new Vector3(dir.x, transform.position.y, dir.z);
-                // Debug.Log("Estoy walking" + jump);
+
+                if (type == "Tuberia")
+                {
+                    type = "null";
+                    state = "SaltaATuberia";
+                    animate.SetInteger("State", 2);
+                    GetComponent<Rigidbody>().AddForce(new Vector3((dir.x - transform.position.x) * 0.65f, 42, (dir.z - transform.position.z) * 0.65f), ForceMode.Impulse);
+                    //GetComponent<Rigidbody>().AddForce(new Vector3(3, 60, 3), ForceMode.Impulse);
+                    // Debug.Log("Estoy quiero saltar con una fuerza vertical de " + (dir.y - transform.position.y) * 10);
+                    AudioSource.PlayClipAtPoint(jumpSound, transform.position);
+                }
+                else {
+                    state = "Walking";
+                    if (aux > 0.5) animate.SetInteger("State", 1);
+                    else animate.SetInteger("State", 0);
+                    //transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
+                    transform.Translate((dir.x - transform.position.x) * Time.deltaTime * speed, 0, (dir.z - transform.position.z) * Time.deltaTime * speed, Space.World);
+                    if (aux < 0.3) transform.position = new Vector3(dir.x, transform.position.y, dir.z);
+                    // Debug.Log("Estoy walking" + jump);
+                }
             }
 
             else if ((state == "idle" || state == "Walking") && aux < 12 && jump > 8-2 && jump < 12-2)
@@ -99,6 +114,10 @@ public class MarioController : MonoBehaviour {
                 // Debug.Log("Estoy quiero saltar");
             }
             else if (state == "Jumping" && jump < -4.5)
+            {
+                state = "falling";
+            }
+            else if (state == "SaltaATuberia" && jump < -3)
             {
                 state = "falling";
             }

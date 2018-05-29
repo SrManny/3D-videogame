@@ -118,11 +118,10 @@ public class ColisionConEnemigo : MonoBehaviour {
        // if (collision.gameObject.transform.parent.transform.parent.tag == "Enemy")
       //  {
             aux = collision.gameObject;
-            if (collision.gameObject.tag == "Goomba" && !animate.GetBool("Dañado") && GoombaController.marioDañado)
+            if (collision.gameObject.tag == "Koopa")
             {
-            Debug.Log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
             aux = collision.gameObject;
-            //Debug.Log("eeeeeee" + collision.contacts[0].point.y);
+            Debug.Log("eeeeeee" + collision.contacts[0].point.y);
             marioDañado = true || marioDañado;
             }
             
